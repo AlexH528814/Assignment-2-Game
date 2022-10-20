@@ -6,14 +6,19 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator anim;
+    private CircleCollider2D coll;
     private SpriteRenderer sprite;
+    [SerializeField] private LayerMask jumpableground;
+   
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jump = 5f;
 
+
+
     private float dirX = 0;
 
-    private enum MovementState { idle, running, jumping}
+    private enum MovementState { idle, running, jumping }
     private MovementState state = MovementState.idle;
 
     // Start is called before the first frame update
@@ -22,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        coll = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -31,11 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jump);
-        }
-
+            rb.velocity = new Vector2(rb.velocity.x, jump);          
+        }      
         UpdateAnimState();
     }
 
@@ -53,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             sprite.flipX = true;
         }
 
-        else if(rb.velocity.y > .1f)
+        else if (rb.velocity.y > .1f)
         {
             state = MovementState.jumping;
         }
@@ -61,8 +66,13 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             state = MovementState.idle;
-        }      
+        }
 
         anim.SetInteger("state", (int)state);
+    }
+ 
+    private bool IsGrounded()
+    {
+        return Physics2D.CircleCast(coll.bounds.center, (float)0.185056, Vector2.down, .3f, jumpableground);
     }
 }
