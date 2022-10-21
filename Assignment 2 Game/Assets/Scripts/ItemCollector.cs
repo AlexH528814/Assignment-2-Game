@@ -14,10 +14,10 @@ public class ItemCollector : MonoBehaviour
         if (collision.gameObject.CompareTag("Coin"))
         {
             Destroy(collision.gameObject);
-            
-            
-            
-            coins++;          
+
+
+
+            coins = coins + 1;         
             
             coinsText.text = "Coins:" + coins;
         }
