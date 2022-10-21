@@ -13,8 +13,12 @@ public class ItemCollector : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
-            coins++;          
             Destroy(collision.gameObject);
+            
+            
+            
+            coins++;          
+            
             coinsText.text = "Coins:" + coins;
         }
     }
