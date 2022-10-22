@@ -8,6 +8,7 @@ public class ItemCollector : MonoBehaviour
     private int coins = 0;
 
     [SerializeField] private Text coinsText;
+    [SerializeField] private AudioSource collectItem;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,7 +16,7 @@ public class ItemCollector : MonoBehaviour
         {
             Destroy(collision.gameObject);
 
-
+            collectItem.Play();
 
             coins = coins + 1;         
             

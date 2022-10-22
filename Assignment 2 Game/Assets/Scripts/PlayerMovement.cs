@@ -8,13 +8,16 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private CircleCollider2D coll;
     private SpriteRenderer sprite;
+    [SerializeField] private AudioSource jumpSoundEffect;
+   
+
     [SerializeField] private LayerMask jumpableground;
    
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jump = 5f;
 
-
+    
 
     private float dirX = 0;
 
@@ -37,9 +40,11 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
+
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jump);          
+            rb.velocity = new Vector2(rb.velocity.x, jump); 
+            jumpSoundEffect.Play();       
         }      
         UpdateAnimState();
     }
@@ -61,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         else if (rb.velocity.y > .1f)
         {
             state = MovementState.jumping;
+            
         }
 
         else
