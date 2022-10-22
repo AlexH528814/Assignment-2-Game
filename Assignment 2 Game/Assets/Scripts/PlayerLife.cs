@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     [SerializeField] private AudioSource DeathSound;
+
+    [SerializeField] private int PlayerLives = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +33,16 @@ public class PlayerLife : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
         DeathSound.Play();
+        PlayerLives--;
     }
 
     private void RestartLevel()
     {
+        if (PlayerLives == 0)
+        {
+            Environment.Exit(0);
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
