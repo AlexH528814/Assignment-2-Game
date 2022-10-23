@@ -37,9 +37,7 @@ public class PlayerLife : MonoBehaviour
     }
 
     private void RestartLevel()
-    {
-        
-
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("DeathScreen"));
+    {        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
