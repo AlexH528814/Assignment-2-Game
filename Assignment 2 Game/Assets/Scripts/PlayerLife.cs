@@ -38,11 +38,8 @@ public class PlayerLife : MonoBehaviour
 
     private void RestartLevel()
     {
-        if (PlayerLives == 0)
-        {
-            Environment.Exit(0);
-        }
+        
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("DeathScreen"));
     }
 }

@@ -9,15 +9,15 @@ public class PlayerMovement : MonoBehaviour
     private CircleCollider2D coll;
     private SpriteRenderer sprite;
     [SerializeField] private AudioSource jumpSoundEffect;
-   
+
 
     [SerializeField] private LayerMask jumpableground;
-   
+
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jump = 5f;
 
-    
+
 
     private float dirX = 0;
 
@@ -43,9 +43,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jump); 
-            jumpSoundEffect.Play();       
-        }      
+            rb.velocity = new Vector2(rb.velocity.x, jump);
+            jumpSoundEffect.Play();
+        }
         UpdateAnimState();
     }
 
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
         else if (rb.velocity.y > .1f)
         {
             state = MovementState.jumping;
-            
+
         }
 
         else
@@ -76,9 +76,31 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetInteger("state", (int)state);
     }
- 
+
     private bool IsGrounded()
     {
         return Physics2D.CircleCast(coll.bounds.center, (float)0.185056, Vector2.down, .3f, jumpableground);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("EndingDoor"))
+        {
+            if (IsGrounded() == false)
+            {
+                Invoke("StaticRigidbody", 0.1f);
+            }
+
+            else
+            {
+                StaticRigidbody();
+            }
+        }
+    }
+
+    private void StaticRigidbody()
+    {
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
 }
