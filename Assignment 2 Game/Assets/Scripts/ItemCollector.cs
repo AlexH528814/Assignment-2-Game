@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class ItemCollector : MonoBehaviour
 {
-    public int coins = 0;
+    public int coin { get { return coins; } }
+    [SerializeField] int coins = 0;
 
+    public Text coinText { get { return coinsText; } }
     [SerializeField] private Text coinsText;
     [SerializeField] private AudioSource collectItem;
 

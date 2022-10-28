@@ -11,12 +11,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource jumpSoundEffect;
 
 
+    private bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
     [SerializeField] private LayerMask jumpableground;
 
 
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jump = 5f;
 
+    private int extraJumps;
+    public int extraJumpsValue;
+
+    private float jumpTimeCounter;
+    public float jumpTime;
+    private bool isJumping;
 
 
     private float dirX = 0;
@@ -27,24 +36,56 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        extraJumps = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<CircleCollider2D>();
     }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, jumpableground);
         dirX = Input.GetAxisRaw("Horizontal");
-
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        UpdateAnimState();
+    }
 
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+    private void Update()
+    {
+        if (isGrounded == true)
+        {
+            extraJumps = extraJumpsValue;
+        }
+
+        if (Input.GetButtonDown("Jump") && extraJumps > 0)
+        {
+            isJumping = true;
+            rb.velocity = new Vector2(rb.velocity.x, jump);
+            extraJumps--;
+            jumpTimeCounter = jumpTime;
+            jumpSoundEffect.Play();
+        }
+
+        else if (Input.GetButtonDown("Jump") && extraJumps == 0 && isGrounded == true)
         {
             rb.velocity = new Vector2(rb.velocity.x, jump);
             jumpSoundEffect.Play();
+        }
+
+        if (Input.GetButton("Jump") && extraJumps > 0 && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jump);
+                jumpTimeCounter -= Time.deltaTime;
+                jumpSoundEffect.Play();
+            }
+            else { isJumping = false; }
+        }
+        if (Input.GetButtonUp("Jump"))
+        {
+            isJumping = false;
         }
         UpdateAnimState();
     }
@@ -77,16 +118,13 @@ public class PlayerMovement : MonoBehaviour
         anim.SetInteger("state", (int)state);
     }
 
-    private bool IsGrounded()
-    {
-        return Physics2D.CircleCast(coll.bounds.center, (float)0.185056, Vector2.down, .3f, jumpableground);
-    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EndingDoor"))
         {
-            if (IsGrounded() == false)
+            if (isGrounded == false)
             {
                 Invoke("StaticRigidbody", 0.1f);
             }

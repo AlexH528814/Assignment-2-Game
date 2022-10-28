@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,8 @@ public class FinishDoor : MonoBehaviour
     private AudioSource finishSound;
     private Animator animator;
     private SpriteRenderer sprite;
+
+    [SerializeField] private GameObject script;
 
     private bool levelcompleted = false;
    
@@ -25,6 +28,8 @@ public class FinishDoor : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        ItemCollector collector = GetComponent<ItemCollector>();
+
         if (collision.gameObject.name == "Player" && !levelcompleted)
         {        
             finishSound.Play();
@@ -35,6 +40,7 @@ public class FinishDoor : MonoBehaviour
 
             Invoke("CompleteLevel", 1f);
         }
+
     }
 
     void CompleteLevel()
@@ -46,4 +52,5 @@ public class FinishDoor : MonoBehaviour
     {
         sprite.sortingOrder = 1;
     }
+
 }
