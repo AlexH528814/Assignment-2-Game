@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119513156716645610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.026, y: -0.678, z: 0}
+  m_LocalPosition: {x: 0.016, y: -0.625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -222,15 +222,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSoundEffect: {fileID: 337638127}
-  groundCheck: {fileID: 0}
-  checkRadius: 0
+  groundCheck: {fileID: 8850066258782196948}
+  checkRadius: 0.3
   jumpableground:
     serializedVersion: 2
     m_Bits: 128
   moveSpeed: 5
   jump: 4
-  extraJumpsValue: 1
-  jumpTime: 0.31
+  extraJumpsValue: 2
+  jumpTime: 0.35
 --- !u!114 &95839035
 MonoBehaviour:
   m_ObjectHideFlags: 0

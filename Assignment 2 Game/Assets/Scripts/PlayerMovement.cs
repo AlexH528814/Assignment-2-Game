@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jump = 5f;
 
     private int extraJumps;
-    public int extraJumpsValue;
+    public int extraJumpsValue = 2;
 
     private float jumpTimeCounter;
     public float jumpTime;
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, jumpableground);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position,checkRadius,jumpableground);
         dirX = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         UpdateAnimState();
@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, jump);
                 jumpTimeCounter -= Time.deltaTime;
-                jumpSoundEffect.Play();
+                
             }
             else { isJumping = false; }
         }
